@@ -1,0 +1,34 @@
+#summary Brainstorm and General Outline for Features
+
+For brevity feel free to use "DKK" (Django Komodo Kit) to indicate this project whenever writing below.
+
+= Misc. Feature Ideas =
+
+ * A toolbar for creating Django components: Model, Manager, Field, Form, etc.
+ * Add Template Library for current project
+ * Add template tag
+ * New Project, New App. Ability to customize the outputs.  For example: settings customizations, include other common files like fields.py, forms.py, etc. by default.
+
+
+
+
+= Feature Types =
+
+== Snippet ==
+
+== Macros ==
+
+== Commands ==
+
+== Toolbars ==
+
+== Menu Items ==
+=== Main Menu ===
+=== Contextual Menus ===
+
+== Templates ==
+
+== Extensions ==
+
+= Thoughts/Questions =
+  1. Need a way to bootstrap Komodo so that all DKK assets are automatically located and loaded into Komodo.
