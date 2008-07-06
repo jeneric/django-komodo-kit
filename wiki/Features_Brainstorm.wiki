@@ -28,6 +28,8 @@ For brevity feel free to use "DKK" (Django Komodo Kit) to indicate this project 
 
 == Templates ==
 
+The DTL parser does not understand inheritance (via {% extends base.html %}). Therefore, it complains that the (X)HTML header is missing and, consequently, the document is not valid and well-formed. The header would be in base.html, though, for example.
+
 == Extensions ==
 
 = Thoughts/Questions =
