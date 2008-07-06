@@ -5,8 +5,8 @@ For brevity feel free to use "DKK" (Django Komodo Kit) to indicate this project 
 
 
 = Developer Resources =
-  *[http://community.activestate.com/forums/komodo-extensions Komodo Extensions & Macros Forum]
-  *[http://community.activestate.com/forums/komodo Komodo Community Forums]
+  * [http://community.activestate.com/forums/komodo-extensions Komodo Extensions & Macros Forum]
+  * [http://community.activestate.com/forums/komodo Komodo Community Forums]
 
 = Implementation Strategies =
 
@@ -22,5 +22,3 @@ KomodoExtensionStrategies
  * New Project, New App. Ability to customize the outputs.  For example: settings customizations, include other common files like fields.py, forms.py, etc. by default.
 
   *The DTL parser does not understand inheritance (via {% extends base.html %}). Therefore, it complains that the (X)HTML header is missing and, consequently, the document is not valid and well-formed. The header would be in base.html, though, for example.
-
-
