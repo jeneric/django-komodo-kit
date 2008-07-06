@@ -2,12 +2,7 @@
 
 For brevity feel free to use "DKK" (Django Komodo Kit) to indicate this project whenever writing below.
 
-= Misc. Feature Ideas =
 
- * A toolbar for creating Django components: Model, Manager, Field, Form, etc.
- * Add Template Library for current project
- * Add template tag
- * New Project, New App. Ability to customize the outputs.  For example: settings customizations, include other common files like fields.py, forms.py, etc. by default.
 
 = Developer Resources =
   *[http://community.activestate.com/forums/komodo-extensions Komodo Extensions & Macros Forum]
@@ -19,25 +14,13 @@ The goal is to utilize the built-in user extension tools as much as possible to 
 
 KomodoExtensionStrategies
 
-= Feature Types =
+= Misc. Feature Ideas =
 
-== Snippet ==
+ * A toolbar for creating Django components: Model, Manager, Field, Form, etc.
+ * Add Template Library for current project
+ * Add template tag
+ * New Project, New App. Ability to customize the outputs.  For example: settings customizations, include other common files like fields.py, forms.py, etc. by default.
 
-== Macros ==
+  *The DTL parser does not understand inheritance (via {% extends base.html %}). Therefore, it complains that the (X)HTML header is missing and, consequently, the document is not valid and well-formed. The header would be in base.html, though, for example.
 
-== Commands ==
 
-== Toolbars ==
-
-== Menu Items ==
-=== Main Menu ===
-=== Contextual Menus ===
-
-== Templates ==
-
-The DTL parser does not understand inheritance (via {% extends base.html %}). Therefore, it complains that the (X)HTML header is missing and, consequently, the document is not valid and well-formed. The header would be in base.html, though, for example.
-
-== Extensions ==
-
-= Thoughts/Questions =
-  1. Need a way to bootstrap Komodo so that all DKK assets are automatically located and loaded into Komodo.
