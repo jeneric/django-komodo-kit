@@ -17,7 +17,7 @@ For brevity feel free to use "DKK" (Django Komodo Kit) to indicate this project 
 
 The goal is to utilize the built-in user extension tools as much as possible to form the core functionality. The Komodo platform is flexible with regards to how you can use and reference collections of files/snippets/commands/... Whenever something isn't obvious to accomplish you can just create a command that runs a python script. This isn't meant to discourage anyone from exploring some of the more "exotic" strategies of writing extensions, writing XPCOM, or Python (+Django) + XUL. We'll need to weigh the pros and cons of those once we're ready to tackle some cool usability features.  
 
-AdvancedKomodoExtension
+KomodoExtensionStrategies
 
 = Feature Types =
 
