@@ -26,6 +26,7 @@ KomodoExtensionStrategies
  * Form editors for settings.py and urls.py
  * Wizard for creating a new project, app, and setting up models, etc. 
     * This can probably be accomplished in a wizard-like way by using a combination of custom commands and a macro. Having a forms-based process would be a nice touch.
+    * see [http://community.activestate.com/faq/creating-project-template#attachments Creating Project Templates from Macros]
 
  * Expose the manage.py commands via menus/toolbars
     * One click dump of all the sql commands
