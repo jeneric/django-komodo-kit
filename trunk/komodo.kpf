@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="1a5eb55b-7da9-4326-be9b-94e0fa2213fc" kpf_version="4" name="komodo.kpf">
+<macro async="1" id="3db08475-fdee-4654-8949-370d6149fc3d" idref="19dc7ef7-f2f2-4cee-9ec1-9ea9ab706dbd" keyboard_shortcut="" language="JavaScript" name="Parent Dirs on Tabs" rank="100" trigger="trigger_startup" trigger_enabled="1">
+/*
+ Travis Cline
+ http://traviscline.com/
+ 
+ As posted at:
+ http://traviscline.com/blog/2008/04/30/komodo-tab-macro-to-ease-django-development-in-komodo/
+ http://dpaste.com/hold/47625/
+*/
+
+try {
+var vm = ko.views.manager.topView;
+var box = document.getAnonymousNodes(vm)[0];
+
+// get the views-tabbed elements
+var tabset1 = box.firstChild;
+var tabset2 = box.lastChild;
+
+// replace the updateLeafName implementation to use something different
+
+// for the tab label
+tabset1.updateLeafName =
+tabset2.updateLeafName = function(view) {
+    view.parentNode._tab.label = view.title;
+    if (view.document) {
+        var language = view.document.language;
+        if (language == 'Python') {
+            var parts = view.document.displayPath.split('/');
+            var len = parts.length;
+            var label = '';
+            if (len &gt; 2) {
+                label += parts[len-2] + '/';
+            }
+            label += parts[len-1];
+            
+            view.parentNode._tab.setAttribute('crop', 'start');
+            view.parentNode._tab.label = label;
+            view.parentNode._tab.setAttribute('tooltiptext',view.document.displayPath);
+            this.tabbox.firstChild.scrollBoxObject.ensureElementIsVisible(this.tabbox.firstChild.selectedItem);
+        }
+    }
+};
+
+// the "on startup" trigger happens after files
+// are opened, so we need to call updateLeafName
+// for each opened view.  Files opened after startup
+// will be fine
+var views = ko.views.manager.topView.getViews(true);
+for (var i=0; i &lt; views.length; i++) {
+    if (views[i].document) {
+        views[i].updateLeafName(views[i]);
+    }
+}
+
+} catch(e) {
+    alert(e);
+}</macro>
+<macro async="0" id="4bfe0054-c830-42d3-9c23-5bfee9edff08" idref="19dc7ef7-f2f2-4cee-9ec1-9ea9ab706dbd" keyboard_shortcut="" language="JavaScript" name="oncreate" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+/*
+ http://community.activestate.com/faq/creating-project-template#attachments
+*/
+var project = komodo.macro.project;
+var name = /^(.*?)(\.kpf)?$/(project.name)[1];
+var startproject = project.getChildByAttributeValue('name','startproject', 1);
+Run_RunCommand(window, "django-admin startproject "+name, "%p", null,
+               false, false, true, "command-output-window");</macro>
+<folder id="19dc7ef7-f2f2-4cee-9ec1-9ea9ab706dbd" idref="1a5eb55b-7da9-4326-be9b-94e0fa2213fc" name="macros">
+</folder>
+<folder id="712e0682-e392-4b6b-8b98-01f706155ffc" idref="1a5eb55b-7da9-4326-be9b-94e0fa2213fc" name="commands">
+</folder>
+<folder id="d4df1eee-214e-4b4b-b489-076115c3eb86" idref="1a5eb55b-7da9-4326-be9b-94e0fa2213fc" name="menus">
+</folder>
+<command cwd="%(ask:%p:DEFAULT)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/application_add.png" id="92640ffa-3696-46f9-9122-246bf715ad27" idref="4d2b39fe-fbd0-4c22-bdfc-3491e6f3d4fc" insertOutput="0" keyboard_shortcut="" name="startapp" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+django-admin startapp %(ask:app name)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/database_go.png" id="e22ac064-1d50-4428-8765-7f762ed60b17" idref="4d2b39fe-fbd0-4c22-bdfc-3491e6f3d4fc" insertOutput="0" keyboard_shortcut="" name="syncdb" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py syncdb</command>
+<folder id="e50d17fc-002d-4c49-891e-648ae1629130" idref="4d2b39fe-fbd0-4c22-bdfc-3491e6f3d4fc" name="SQL">
+</folder>
+<command cwd="%(ask:Path:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/folder_add.png" id="f2df8a39-1125-43b9-9432-4171144a7cb1" idref="4d2b39fe-fbd0-4c22-bdfc-3491e6f3d4fc" insertOutput="0" keyboard_shortcut="" name="startproject" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+django-admin startproject %(ask:Project Name)</command>
+<command cwd="%(ask:%p:DEFAULT)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/application_add.png" id="090efee7-390e-4a50-a8e6-39fa7d4b4dda" idref="712e0682-e392-4b6b-8b98-01f706155ffc" insertOutput="0" keyboard_shortcut="" name="startapp" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+django-admin startapp %(ask:app name)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/database_go.png" id="330b0112-4d2a-44c6-8ef6-ef6f6b4a2c11" idref="712e0682-e392-4b6b-8b98-01f706155ffc" insertOutput="0" keyboard_shortcut="" name="syncdb" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py syncdb</command>
+<command cwd="%(ask:QUESTION:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/folder_add.png" id="65f6a5e8-5c4a-4ee3-a438-20df4b845661" idref="712e0682-e392-4b6b-8b98-01f706155ffc" insertOutput="0" keyboard_shortcut="" name="startproject" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+django-admin startproject %(ask:Project Name:DEFAULT)</command>
+<folder id="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" idref="712e0682-e392-4b6b-8b98-01f706155ffc" name="SQL">
+</folder>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_delete.png" id="0535e82f-b023-4146-999d-7d92724a72c4" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlclear" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlclear %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="2bb1ead0-91c8-4c44-b57b-36c3dce936ba" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sql" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sql %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="361c75b4-546d-4bab-91b1-21a57652750e" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlindexes" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlindexes %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="7278533e-d5ce-43dc-8e07-7aacec1dca1a" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlsequencereset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlsequencereset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_edit.png" id="8c8469d3-0482-4bfd-8840-e5206303d01e" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlcustom" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlcustom %(ask:App Names (space delimited))</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="a19b1e33-a832-46c9-b47a-4ff43eb03a3b" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlreset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlreset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="aca48589-e8d4-46e5-bccd-41da270bacc2" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlall" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlall %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="b0855087-5090-456e-9c6d-27c27dd22a96" idref="8980656b-8d1b-4b6d-9cd6-80cb211d8474" insertOutput="0" keyboard_shortcut="" name="sqlflush" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlflush</command>
+<folder id="132b09aa-17a6-44f2-b43e-d6a103035fd5" idref="a10f6830-2288-4c93-b6f0-5c47e33d0851" name="SQL">
+</folder>
+<command cwd="%(ask:Path:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/folder_add.png" id="21ebd072-0169-4afd-a599-23d9daff0f00" idref="a10f6830-2288-4c93-b6f0-5c47e33d0851" insertOutput="0" keyboard_shortcut="" name="startproject" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+django-admin startproject %(ask:Project Name)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/database_go.png" id="6daf215a-1019-459a-a36a-03023ec364b9" idref="a10f6830-2288-4c93-b6f0-5c47e33d0851" insertOutput="0" keyboard_shortcut="" name="syncdb" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py syncdb</command>
+<command cwd="%(ask:%p:DEFAULT)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/application_add.png" id="98eb811e-13e4-4327-adb9-960e03e81565" idref="a10f6830-2288-4c93-b6f0-5c47e33d0851" insertOutput="0" keyboard_shortcut="" name="startapp" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+django-admin startapp %(ask:app name)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="08a74afd-2976-4f39-aa83-153e4bdb8362" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlall" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlall %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="19865a2e-50e1-4fad-a560-ee4e3189d2c2" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlreset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlreset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="1b7eba3b-c3e2-4e14-9b39-947da0e86e16" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlflush" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlflush</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="3f6d32df-dd88-4a86-9642-655a2943bcfa" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sql" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sql %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_delete.png" id="48caac7e-2b26-486b-8fb7-cb34cc3b69b6" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlclear" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlclear %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_edit.png" id="4a5b2e1a-33e8-49fe-be85-06ab01b468ca" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlcustom" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlcustom %(ask:App Names (space delimited))</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="60866b32-58e3-47db-a1df-8aabc0d1a70d" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlsequencereset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlsequencereset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="dbe5aa04-eda2-4431-8818-a88115376bd2" idref="cbe7bbca-49e4-4263-adea-bade74ccf5bb" insertOutput="0" keyboard_shortcut="" name="sqlindexes" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlindexes %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="1a5e7261-c255-4967-8cc9-e45b52d421d5" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlflush" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlflush</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="221498ac-5400-4268-bd38-7f5f6ebcad45" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlall" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlall %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="2b4a72a2-900a-4307-809d-77bc9d0cb460" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlindexes" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlindexes %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="3f990945-fe7f-468b-8a4c-bc59ddf6ba29" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sql" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sql %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="4ef5a77e-ec0e-4aff-ab74-3d148a664301" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlsequencereset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlsequencereset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_edit.png" id="5f95e0d1-e421-44fb-b272-02245929faa7" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlcustom" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlcustom %(ask:App Names (space delimited))</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="8cdadd4c-f079-45f6-9e3c-585702311173" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlreset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlreset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_delete.png" id="b3144e0f-8046-4af0-bc76-b7207d2bdc42" idref="cc7994b3-4b94-41a1-8efa-0716ac8c6a2f" insertOutput="0" keyboard_shortcut="" name="sqlclear" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlclear %(ask:App Names)</command>
+<menu accesskey="" id="4d2b39fe-fbd0-4c22-bdfc-3491e6f3d4fc" idref="d4df1eee-214e-4b4b-b489-076115c3eb86" name="Django" priority="100">
+</menu>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="0e62418b-f6b8-4e84-80fd-5e1b37148050" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlreset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlreset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_delete.png" id="104cbb9f-e038-49e6-b773-d7dab9523d62" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlclear" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlclear %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="17fedc94-408f-4bd3-8ea9-1a5d7b5be1cf" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlflush" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlflush</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="5991d242-8a0e-4d72-b929-5c89cce5642b" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sql" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sql %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_add.png" id="92affef3-1983-4f00-8b4c-85eeef516d95" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlall" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlall %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_gear.png" id="c211cf28-e255-4c5f-9cad-4d92bfb4fd96" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlindexes" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlindexes %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script.png" id="dd17b01b-9e7a-4e15-9e64-cca0fcde28f6" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlsequencereset" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlsequencereset %(ask:App Names)</command>
+<command cwd="%(ask:Settings Dir:%p)" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/script_edit.png" id="e877b1fd-0f83-4659-be5c-ce5395d1a118" idref="e50d17fc-002d-4c49-891e-648ae1629130" insertOutput="0" keyboard_shortcut="" name="sqlcustom" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+python manage.py sqlcustom %(ask:App Names (space delimited))</command>
+<preference-set idref="1a5eb55b-7da9-4326-be9b-94e0fa2213fc">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>
