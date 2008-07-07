@@ -1,1 +1,2 @@
-http://www.activestate.com/index.mhtml
+ * [http://www.activestate.com/index.mhtml ActiveState Home Page]
+ * [http://community.activestate.com/products/Komodo ActiveState Community Page]
