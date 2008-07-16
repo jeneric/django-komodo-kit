@@ -33,6 +33,10 @@ KomodoExtensionStrategies
 
   * Auto-complete, context sensitive documentation for templates and template tags
 
+  * Manage virtual Python environments (virtualenv) via menu and toolbar
+
+  * Integrate [http://code.google.com/p/django-command-extensions/ django-command-extensions]
+
 == Far ==
 
   * The DTL parser does not understand inheritance (via {% extends base.html %}). Therefore, it complains that the (X)HTML header is missing and, consequently, the document is not valid and well-formed. The header would be in base.html, though, for example. See [http://bugs.activestate.com/show_bug.cgi?id=77251 Bug #77251]
