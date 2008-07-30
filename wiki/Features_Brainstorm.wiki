@@ -47,4 +47,6 @@ KomodoExtensionStrategies
 
   * (IDE ONLY) Integrate debugger with development server
 
-  
+    Debugging is described [http://community.activestate.com/forum-topic/debugging-django-apps here] and it works as a snippet, using the second option mentioned there (port number may vary, see under Debug/Listener Status):
+
+    `/path-to-komodo-install/lib/support/dbgp/bin/pydbgp -d localhost:9000 manage.py runserver --noreload`
